@@ -8,6 +8,15 @@
   <img src="docs/preview-leave.png" width="300" alt="请假页">
 </p>
 
+## 下载安装包
+
+不想自己编译的话，直接下预编译的 APK：
+
+**[⬇ campus-leave-ui-v1.0.0.apk](https://github.com/aaaafule/campus-leave-ui/releases/download/v1.0.0/campus-leave-ui-v1.0.0.apk)**　·　260.8 KB　·　Android 5.0+
+
+传到手机点开即可安装（首次会提示"未知来源"，允许即可）。包名 `com.sim.leave`，**零权限**。
+校验：SHA-256 `ad0e23e8e356f1cfc4addb5133d6f0c20712dbc6c1149fd3e575c8cbb450957c`
+
 ## 这个仓库里有什么
 
 ```
