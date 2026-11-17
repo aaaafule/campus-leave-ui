@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>今日校园 · 请假（动画复刻）</title>
+<link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+<div class="stage">
+  <div class="phone">
+    <div class="phone__notch"></div>
+    <div class="screen">
+
+      <!-- 系统状态栏 -->
+      <div class="sysbar">
+        <span class="sysbar__time" id="sysTime">02:34</span>
+        <span class="sysbar__icons">
+          <svg viewBox="0 0 18 12" width="15" height="10"><path d="M1 9h2v3H1zM5 6.5h2V12H5zM9 4h2v8H9zM13 1.5h2V12h-2z" fill="currentColor"/></svg>
+          <b class="badge4g">4G</b><b class="badge5g">5G</b>
+          <svg viewBox="0 0 26 12" width="22" height="10"><rect x=".5" y="1.5" width="21" height="9" rx="2.5" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="3" width="17" height="6" rx="1.4" fill="currentColor"/></svg>
+        </span>
+      </div>
+
+      <!-- 内置浏览器栏 -->
+      <div class="chrome">
+        <button class="chrome__close" aria-label="关闭">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+        <div class="chrome__mid">
+          <div class="chrome__ttl">请假</div>
+          <div class="chrome__url">jlevc.campusphere.net</div>
+        </div>
+        <button class="chrome__more" aria-label="更多">
+          <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="5" cy="12" r="1.7" fill="#111"/><circle cx="12" cy="12" r="1.7" fill="#111"/><circle cx="19" cy="12" r="1.7" fill="#111"/></svg>
+        </button>
+        <div class="chrome__prog"><i id="prog"></i></div>
+      </div>
+
+      <!-- 页面 -->
+      <main class="page" id="page">
+
+        <!-- 绿色状态横幅 -->
+        <section class="hero" id="hero">
+          <!-- 已通过态：整块英雄区（✓审批已通过 / 个人信息 / 正在休假中）直接用高清截图裁切，
+               字形与参考完全一致；齿带与时钟仍是活的（下面两个元素） -->
+          <img class="hero__img" src="./img/hero_top.png" alt="审批已通过 正在休假中" />
+          <div class="hero__txt">
+          <div class="hero__top">
+            <span class="hero__ok"><svg class="okico" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><circle cx="8" cy="8" r="8" fill="#fff"/><path d="M3.77 7.58 6.90 10.30 11.98 6.14" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="butt" stroke-linejoin="round"/></svg>审批已通过</span>
+            <span class="hero__link">个人信息 <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3"><path d="M9 5l7 7-7 7"/></svg></span>
+          </div>
+          <h1 class="hero__big" id="heroBig">正在休假中</h1>
+          </div>
+          <div class="hero__stripes"></div>
+          <span class="hero__clock" id="clock">当前时间:2026-11-15 02:34:04</span>
+        </section>
+
+        <!-- 个人信息 -->
+        <section class="who">
+          <div class="avatar" id="avatar"></div>
+          <div class="who__meta">
+            <div class="who__name ed" id="whoName" contenteditable="true" spellcheck="false" data-field="name" data-empty="姓名"></div>
+            <div class="who__no ed" id="whoNo" contenteditable="true" spellcheck="false" data-field="no" data-empty="性别学号"></div>
+          </div>
+        </section>
+
+        <!-- 概览 -->
+        <section class="fact">
+          <div class="fact__row fact__row--2">
+            <span><em>请假类型：</em>事假</span>
+            <span><em>需要离校：</em>否</span>
+          </div>
+          <div class="fact__row"><em>销假规则：</em><b class="warn">离校请假需要销假，非离校请假无需销假</b></div>
+          <div class="fact__row"><em>实际休假时间：</em>-</div>
+        </section>
+
+        <!-- 我的请假申请 -->
+        <section class="card" id="card">
+          <h2 class="card__t">我的 请假申请</h2>
+          <div class="kv"><em>开始时间：</em><b id="startAt">11-13 15:09</b></div>
+          <div class="kv"><em>结束时间：</em><b id="endAt">11-16 07:00</b></div>
+          <div class="kv"><em>审批流程：</em><span id="flow">共1步</span><a class="lnk">查看<svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="3.4"><path d="M9 5l7 7-7 7"/></svg></a></div>
+          <div class="kv"><em>审批人：</em><span id="approver"></span></div>
+          <div class="kv"><em>请假原因：</em><span id="reason"></span></div>
+          <div class="kv"><em>发起位置：</em><a class="lnk" id="loc"></a></div>
+          <div class="kv"><em>抄送人：</em>无</div>
+          <div class="kv"><em>宿舍信息：</em>-</div>
+
+          <span class="dur" id="dur">2天15小时51分钟</span>
+          <img class="seal" id="seal" src="./img/seal.jpg" alt="审批通过" />
+        </section>
+
+        <div class="tail"></div>
+      </main>
+
+      <!-- 智能客服 -->
+      <button class="help" id="help">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round">
+          <path d="M4 13v-1a8 8 0 0 1 16 0v1"/><rect x="2.6" y="12.6" width="3.6" height="5.4" rx="1.8"/><rect x="17.8" y="12.6" width="3.6" height="5.4" rx="1.8"/><path d="M20 18v.6a2.4 2.4 0 0 1-2.4 2.4H13"/>
+        </svg>
+        <span>智能客服</span>
+      </button>
+
+      <!-- 审批流程上滑弹层 -->
+      <div class="sheet-mask" id="sheetMask" hidden></div>
+      <div class="sheet" id="sheet">
+        <div class="sheet__hd">
+          <strong>审批流程</strong>
+          <button class="sheet__x" id="sheetX">关闭</button>
+        </div>
+        <ol class="steps" id="steps">
+          <li class="step step--done">
+            <span class="step__dot"></span>
+            <div class="step__b"><div class="step__t">发起申请<b id="stApplicant"></b></div><div class="step__d" id="stApplyAt"></div></div>
+          </li>
+          <li class="step step--done">
+            <span class="step__dot"></span>
+            <div class="step__b"><div class="step__t">辅导员审批<b id="stApprover"></b></div><div class="step__d">同意 · 审批通过</div></div>
+          </li>
+        </ol>
+      </div>
+
+      <div class="homebar"></div>
+    </div>
+  </div>
+
+  <div class="hint"><strong>今日校园 · 请假页</strong><span>横幅与齿带为录屏裁切；点右上角 × 可切「已通过 / 待审批」</span></div>
+</div>
+<script src="./app.js"></script>
+<script src="./splash.js"></script>
+</body>
+</html>

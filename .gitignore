@@ -1,0 +1,18 @@
+# 构建产物（由脚本生成，不入库）
+*-standalone.html
+share/index.html
+
+# Android 构建产物与签名文件（务必不要提交）
+*.apk
+*.aab
+*.jks
+*.keystore
+android/build/
+android/out/
+
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+node_modules/

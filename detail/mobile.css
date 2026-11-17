@@ -1,0 +1,71 @@
+/* ============================================================
+   手机运行版：去掉模拟外壳（黑框 / 状态栏 / 提示条），只留页面主体
+   ------------------------------------------------------------------
+   适配思路：设计稿是 375 宽，整页按 innerWidth/375 等比缩放，
+   缩放后正好铺满屏宽；#stage 的逻辑高度写成 100dvh/s，
+   缩放后视觉高度 = 视口高度，所以底部按钮永远贴底、中间区域滚动。
+   不用视口单位逐个重写尺寸，避免与桌面版（index.html）产生两份样式。
+   ============================================================ */
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0; height: 100%;
+  background: #ffffff;
+  overflow: hidden;                 /* 滚动交给 .body */
+  -webkit-text-size-adjust: 100%;
+  overscroll-behavior: none;
+}
+
+/* 手机版不再需要桌面预览的居中舞台样式 */
+body { display: block; }
+
+#app {
+  position: fixed; inset: 0;
+  display: flex; justify-content: center;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+#stage {
+  /* --s 由 mobile.js 按屏宽算出 */
+  flex: 0 0 375px;          /* 关键：别让 flex 把 375 压窄，否则缩放后会留白 */
+  width: 375px;
+  height: calc(100vh / var(--s, 1));
+  height: calc(100dvh / var(--s, 1));   /* 支持动态视口时优先用它 */
+  transform: scale(var(--s, 1));
+  transform-origin: top center;
+  display: flex; flex-direction: column;
+  position: relative;
+  background: #fff;
+  overflow: hidden;                     /* 圆角/溢出裁切 */
+  /* 被缩放后等价于满屏 */
+}
+
+/* 去掉外壳后，安全区改由页面自己让位（仅 viewport-fit=cover 时生效） */
+#stage .nav {
+  height: calc(46px + env(safe-area-inset-top, 0px));
+  padding-top: env(safe-area-inset-top, 0px);
+  flex: 0 0 auto;
+}
+#stage .bottombar {
+  height: calc(43px + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  flex: 0 0 auto;
+}
+
+/* 中间区域自己滚 */
+#stage .body { flex: 1 1 auto; min-height: 0; }
+
+/* 智能客服：原坐标是"含状态栏"的 575，去掉 47px 状态栏后上移 */
+#stage .help { top: 528px; }
+
+/* 触屏手感：去掉点击高亮与长按菜单 */
+#stage * { -webkit-tap-highlight-color: transparent; }
+#stage .ed { -webkit-user-select: text; user-select: text; }
+#stage .nav__back:active,
+#stage .nav__right:active,
+#stage .tab:active,
+#stage .bbtn:active { opacity: .6; }
+
+/* 正文滚动条：手机上不显示 */
+#stage .body::-webkit-scrollbar { width: 0; height: 0; }

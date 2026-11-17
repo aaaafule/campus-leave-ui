@@ -1,0 +1,43 @@
+/* ============================================================
+   sim4 手机运行版：去掉模拟外壳（黑框 / 状态栏 / 浏览器栏 / 提示条）
+   整页按 375 设计宽等比缩放铺满屏宽，底部无操作栏、页面内部滚动。
+   ============================================================ */
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0; height: 100%;
+  background: #fff; overflow: hidden;
+  -webkit-text-size-adjust: 100%;
+  overscroll-behavior: none;
+}
+body { display: block; }
+
+#app {
+  position: fixed; inset: 0;
+  display: flex; justify-content: center;
+  overflow: hidden; background: #fff;
+}
+
+/* #stage 复用 .screen 的列布局，只把外壳换掉 */
+#stage {
+  flex: 0 0 375px;
+  width: 375px;
+  height: calc(100vh / var(--s, 1));
+  height: calc(100dvh / var(--s, 1));
+  transform: scale(var(--s, 1));
+  transform-origin: top center;
+  border-radius: 0;                 /* 手机上不需要圆角 */
+  display: flex; flex-direction: column;
+  position: relative; overflow: hidden;
+  background: var(--page);
+}
+
+/* 中间区域自己滚 */
+#stage .page { flex: 1 1 auto; min-height: 0; }
+
+/* 触屏手感 */
+#stage * { -webkit-tap-highlight-color: transparent; }
+#stage .ed { -webkit-user-select: text; user-select: text; }
+#stage .help:active { opacity: .7; }
+
+#stage .page::-webkit-scrollbar { width: 0; height: 0; }

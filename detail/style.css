@@ -1,0 +1,350 @@
+/* ============================================================
+   今日校园 · 请假详情（按录屏 720×1564 复刻，CSS 基准 375×814）
+   设计换算：CSS = 录屏 px × 0.5208
+   取色（帧统计）：橙 #FF9902 / 蓝 #3399FE / 绿 #00CD6B / 底 #F5F7F9
+   ============================================================ */
+:root {
+  --blue: #3399fe;
+  --green: #00cd6b;
+  --green-d: #00ba60;
+  --orange: #ff9902;
+  --page: #f5f7f9;
+  --ink: #3e4753;
+  --ink-2: #9da7b3;
+  --ink-3: #a8b0bb;
+  --line: #eeeeee;
+  --card: #ffffff;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: #e9ebef;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", Roboto, sans-serif;
+  color: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+}
+.stage { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+
+/* ---------- 手机外框 ---------- */
+.phone {
+  position: relative; width: 399px; height: 838px;
+  background: #0b0b0c; border-radius: 42px; padding: 12px;
+  box-shadow: 0 24px 54px rgba(16, 24, 40, .3);
+}
+.punch {
+  position: absolute; top: 22px; left: 50%; transform: translateX(-50%);
+  width: 62px; height: 22px; border-radius: 11px; background: #0b0b0c; z-index: 60;
+}
+.screen {
+  position: relative; width: 100%; height: 100%;
+  border-radius: 32px; overflow: hidden; background: #fff;
+  display: flex; flex-direction: column;
+}
+
+/* ---------- 状态栏 ---------- */
+.sysbar {
+  flex: 0 0 47px; height: 47px; display: flex; align-items: center;
+  justify-content: space-between; padding: 0 16px 0 20px;
+  background: #fff; color: #111; font-size: 14px; font-weight: 600;
+}
+.sysbar__icons { display: inline-flex; align-items: center; gap: 3px; font-size: 9px; }
+.b4g, .b5g { font-weight: 700; padding: 1px 2px; border-radius: 2px; color: #fff; }
+.b4g { background: #2e7d32; }
+.b5g { background: #37474f; }
+
+/* ---------- 导航栏 ---------- */
+.nav {
+  flex: 0 0 46px; height: 46px; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  background: #fff;
+}
+.nav__back {
+  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+  border: 0; background: transparent; padding: 2px; cursor: pointer;
+}
+.nav__title { font-size: 20px; font-weight: 500; color: #333; letter-spacing: .5px; }
+.nav__right {
+  position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+  border: 0; background: transparent; font-size: 16px; color: #fe4443;
+  font-family: inherit; cursor: pointer;
+}
+
+/* ---------- 标签 ---------- */
+.tabs {
+  flex: 0 0 43px; height: 43px; display: flex; background: #fff;
+  border-bottom: 1px solid var(--line);
+}
+.tab {
+  flex: 1 1 0; border: 0; background: transparent; font-family: inherit;
+  font-size: 15px; color: var(--ink-2); cursor: pointer; position: relative;
+}
+.tab.is-on { color: var(--blue); }
+.tab.is-on::after {
+  content: ""; position: absolute; left: 50%; transform: translateX(-50%);
+  bottom: 3px; width: 74px; height: 3px; border-radius: 2px; background: var(--blue);
+}
+
+/* ---------- 主体 ---------- */
+.body {
+  flex: 1 1 auto; overflow-y: auto; -webkit-overflow-scrolling: touch;
+  background: var(--page);
+  scrollbar-width: none;
+}
+.body::-webkit-scrollbar { display: none; }
+
+.bannerwrap { display: block; line-height: 0; }
+.banner { display: block; width: 100%; height: 97.4px; }
+
+/* 菱形齿带：形状直接用录屏原图（裁一个完整周期 115×31px），只让它平移
+   周期实测精确为 115px（自相关在 115 处 MAD 1.51，邻值都大一个量级）
+   → 无缝平铺；显示尺寸 115×0.5208 = 59.9 CSS，带高 31×0.5208 = 16.1 CSS
+   速度实测 115 px/s @720 = 59.9 CSS px/s，即一个周期/秒，方向向右 */
+.zig {
+  height: 16.1px;
+  background-image: url("./assets/zig_tile.png");
+  background-repeat: repeat-x;
+  background-size: 59.9px 16.1px;
+  animation: zigMove 1s linear infinite;
+}
+@keyframes zigMove { to { background-position: 59.9px 0; } }
+
+/* 概览 */
+.facts { background: #fff; padding: 7px 16px 7px; }
+.facts__row { font-size: 12px; line-height: 18.7px; color: var(--ink); }
+.facts__row--2 { display: flex; gap: 40px; }
+.facts__row em { font-style: normal; color: var(--ink-2); }
+.warn { color: var(--orange); font-weight: 400; }
+
+.gap { height: 9px; background: var(--page); }
+.spacer { height: 60px; }
+
+/* 卡片 */
+.card {
+  position: relative; background: #fff; padding: 9px 16px 11px;
+}
+.card__t { margin: 0 0 4px; font-size: 13.5px; font-weight: 600; color: #454c5a; }
+.kv { font-size: 12px; line-height: 18.7px; color: var(--ink); }
+.kv em { font-style: normal; color: var(--ink-2); }
+.kv b { font-weight: 600; }
+.lnk {
+  color: var(--blue); text-decoration: none; font-size: 12px;
+  display: inline-flex; align-items: center; gap: 1px; margin-left: 3px;
+}
+.lnk--block { display: inline; margin-left: 0; }
+
+
+/* 时长徽章 */
+.dur {
+  position: absolute; right: 16px; top: 40px;
+  border: 1px solid #a9d4ff; background: #eaf6ff; color: var(--blue);
+  font-size: 12px; font-weight: 600; padding: 4px 9px; border-radius: 6px;
+}
+
+/* 审批流程记录 */
+.card--flow { padding-bottom: 12px; }
+.tl { position: relative; padding-left: 2px; }
+.tl__item { display: flex; align-items: center; gap: 12px; height: 30px; position: relative; }
+.tl__dot {
+  width: 17px; height: 17px; border-radius: 50%; flex: 0 0 17px;
+  border: 2px solid #ddd; background: #fff; position: relative;
+}
+.tl__dot--blue { border-color: var(--blue); }
+.tl__dot--green { border-color: var(--green); }
+.tl__item:not(:last-child) .tl__dot::after {
+  content: ""; position: absolute; left: 50%; top: 100%; width: 2px; height: 15px;
+  transform: translateX(-50%); background: #e6e8eb;
+}
+/* 姓名可编辑后可能变长：时间固定不压缩，文字超长则省略，
+   避免长名字把右侧时间挤走。默认值下不触发（渲染逐像素比对为 0）。 */
+.tl__txt {
+  font-size: 12px; color: var(--ink);
+  min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.tl__txt .ok { color: var(--green); font-weight: 400; }
+.tl__time { margin-left: auto; flex: 0 0 auto; font-size: 11.5px; color: var(--ink-3); }
+.opinion {
+  margin: 8px 0 0 29px; background: #f7f8fa; border: 1px solid #eceef1;
+  border-radius: 6px; padding: 7px 10px; font-size: 12px; color: var(--ink-3);
+}
+
+/* 智能客服 */
+/* 智能客服：直接用高清截图裁切（带透明圆角），尺寸取视频实测 24.0×102.1 CSS */
+.help {
+  position: absolute; right: 0; top: 575px;
+  width: 24.3px; height: 102.1px;
+  z-index: 20; pointer-events: auto; cursor: pointer;
+}
+
+/* 底部操作栏 */
+.bottombar {
+  flex: 0 0 43px; height: 43px; display: flex; background: #fff;
+  border-top: 1px solid var(--line); z-index: 30;
+}
+.bbtn {
+  flex: 1 1 0; border: 0; background: #fff; font-family: inherit;
+  font-size: 15px; color: var(--ink-2); cursor: pointer;
+}
+.bbtn + .bbtn { border-left: 1px solid var(--line); }
+.bbtn--primary { background: var(--blue); color: #fff; }
+.homebar {
+  position: absolute; left: 50%; bottom: 5px; transform: translateX(-50%);
+  width: 120px; height: 4px; border-radius: 2px; background: rgba(0,0,0,.25);
+  z-index: 40;
+}
+
+.hint { color: #6b7280; font-size: 12px; text-align: center; line-height: 17px; }
+.hint strong { display: block; color: #374151; font-size: 13px; }
+
+/* ---------- 可编辑字段 ----------
+   只加"可编辑"能力，不碰任何字体相关属性：
+   不设 font-*、不设 line-height、不设 letter-spacing、不设 padding，
+   所以进入编辑态前后排版与字形完全一致（渲染后逐像素校验过）。
+   焦点态只用 background 提示，inline 元素上不产生任何盒模型变化。 */
+.ed {
+  outline: 0;                 /* 去掉 contenteditable 默认的焦点黑框 */
+  cursor: text;
+  border-radius: 3px;
+  -webkit-user-modify: read-write-plaintext-only;
+}
+.ed:hover  { background: rgba(51, 153, 254, .08); }
+.ed:focus  { background: rgba(51, 153, 254, .14); }
+/* 清空后仍可点击，并给一个极淡的占位（字体与正文同族同号） */
+.ed:empty::before {
+  content: attr(data-empty);
+  color: #c4c9d0;
+  pointer-events: none;
+}
+/* 时间这类加粗值，占位也跟着加粗，避免空态跳版 */
+b.ed:empty::before { font-weight: 600; }
+
+
+/* ============================================================
+   时间选择器（开始/结束时间）
+   交互参照 PC 端请假表单里的 Element Plus datetimerange：
+   日历选日期 + 时/分两列，输出格式与页面一致的 MM-DD HH:mm
+   ============================================================ */
+.dtp { position: absolute; inset: 0; z-index: 80; }
+.dtp[hidden] { display: none; }
+.dtp__mask {
+  position: absolute; inset: 0; background: rgba(0, 0, 0, .35);
+  opacity: 0; transition: opacity .22s ease;
+}
+.dtp.is-open .dtp__mask { opacity: 1; }
+.dtp__panel {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  background: #fff; border-radius: 14px 14px 0 0;
+  transform: translateY(100%); transition: transform .26s cubic-bezier(.22,.9,.3,1);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.dtp.is-open .dtp__panel { transform: none; }
+
+.dtp__hd {
+  position: relative; height: 44px; display: flex; align-items: center;
+  justify-content: space-between; padding: 0 14px;
+  border-bottom: 1px solid var(--line);
+}
+.dtp__title { position: absolute; left: 50%; transform: translateX(-50%); font-size: 14px; color: var(--ink); }
+.dtp__cancel, .dtp__ok {
+  border: 0; background: transparent; font-family: inherit;
+  font-size: 14px; cursor: pointer; padding: 6px 4px;
+}
+.dtp__cancel { color: var(--ink-2); }
+.dtp__ok { color: var(--blue); font-weight: 600; }
+
+/* ---- 日历 ---- */
+.dtp__cal { padding: 8px 12px 4px; }
+.dtp__mh { display: flex; align-items: center; justify-content: space-between; height: 30px; }
+.dtp__mh .dtp__month { font-size: 13.5px; color: var(--ink); font-weight: 600; }
+.dtp__prev, .dtp__next {
+  border: 0; background: transparent; color: var(--ink-2);
+  font-size: 18px; line-height: 1; padding: 4px 10px; cursor: pointer;
+}
+.dtp__prev:disabled, .dtp__next:disabled { opacity: .3; }
+.dtp__week { display: grid; grid-template-columns: repeat(7, 1fr); margin-top: 4px; }
+.dtp__week span { text-align: center; font-size: 11px; color: var(--ink-2); line-height: 24px; }
+.dtp__days { display: grid; grid-template-columns: repeat(7, 1fr); row-gap: 2px; }
+.dtp__day {
+  height: 30px; display: flex; align-items: center; justify-content: center;
+  font-size: 13px; color: var(--ink); border-radius: 6px; cursor: pointer;
+}
+.dtp__day.is-blank { visibility: hidden; }
+.dtp__day.is-today { color: var(--blue); }
+.dtp__day.is-on { background: var(--blue); color: #fff; font-weight: 600; }
+.dtp__day.is-dim { color: #c4c9d0; }
+
+/* ---- 时 / 分 ---- */
+.dtp__time {
+  position: relative; display: flex; align-items: center; justify-content: center;
+  gap: 4px; height: 170px; margin: 0;
+}
+/* 上下渐隐遮罩放在容器上，不要再挂到滚动元素自身（sticky + 负 margin 会错位） */
+.dtp__time::before, .dtp__time::after {
+  content: ""; position: absolute; left: 0; right: 0; height: 62px;
+  pointer-events: none; z-index: 3;
+}
+.dtp__time::before { top: 0; background: linear-gradient(#fff 12%, rgba(255,255,255,0)); }
+.dtp__time::after { bottom: 0; background: linear-gradient(rgba(255,255,255,0), #fff 88%); }
+.dtp__col {
+  position: relative; width: 78px; height: 170px; overflow-y: auto;
+  padding: 68px 0;                     /* (170 - 34) / 2，让首尾也能居中 */
+  scroll-snap-type: y mandatory; scrollbar-width: none;
+  -webkit-overflow-scrolling: touch; z-index: 1;
+}
+.dtp__col::-webkit-scrollbar { display: none; }
+.dtp__item {
+  height: 34px; line-height: 34px; text-align: center;
+  font-size: 15px; color: var(--ink-3); scroll-snap-align: center;
+  font-variant-numeric: tabular-nums; transition: color .12s, font-size .12s;
+}
+.dtp__item.is-on { color: var(--ink); font-weight: 600; font-size: 16.5px; }
+.dtp__colon { font-size: 15px; color: var(--ink-3); margin-top: -2px; z-index: 1; }
+/* 中间选中带：铺满整个时间区，与两列一起框住当前值 */
+.dtp__band {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  width: 190px; height: 34px; border-top: 1px solid #e6e8ec; border-bottom: 1px solid #e6e8ec;
+  pointer-events: none; z-index: 2;
+}
+.dtp__hint {
+  height: 26px; line-height: 26px; text-align: center;
+  font-size: 11.5px; color: #fe4443;
+}
+.dtp__hint[hidden] { display: none; }
+
+/* ============================================================
+   启动动画：本程序仅供交流学习使用（淡入 → 停留 → 淡出）
+   ============================================================ */
+#splash {
+  position: absolute; inset: 0; z-index: 200;
+  background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 1; transition: opacity .65s ease;
+  /* 避免首帧闪一下正文 */
+  will-change: opacity;
+}
+#splash.is-out { opacity: 0; pointer-events: none; }
+
+#splash .splash__box {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  transform: translateY(0);
+}
+
+#splash .splash__t {
+  font-size: 21px;                  /* 放大到一眼能看清 */
+  font-weight: 500;
+  color: #2f343b;
+  letter-spacing: .6px;
+  line-height: 1.45;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .7s cubic-bezier(.22,.9,.3,1), transform .7s cubic-bezier(.22,.9,.3,1);
+}
+#splash.is-in .splash__t { opacity: 1; transform: translateY(0); }
+
+/* 文字下面一条随之展开的细线，纯装饰 */
+#splash .splash__box::after {
+  content: ""; display: block; width: 0; height: 1px;
+  background: linear-gradient(90deg, rgba(51,153,254,0), rgba(51,153,254,.55), rgba(51,153,254,0));
+  transition: width .8s cubic-bezier(.22,.9,.3,1);
+}
+#splash.is-in .splash__box::after { width: 200px; }

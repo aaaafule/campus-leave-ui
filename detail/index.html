@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>今日校园 · 请假详情</title>
+<link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+<div class="stage">
+  <div class="phone">
+    <div class="punch"></div>
+    <div class="screen">
+
+      <!-- 系统状态栏 -->
+      <div class="sysbar">
+        <span class="sysbar__time">02:39</span>
+        <span class="sysbar__icons">
+          <svg viewBox="0 0 18 12" width="15" height="10"><path d="M1 9h2v3H1zM5 6.5h2V12H5zM9 4h2v8H9zM13 1.5h2V12h-2z" fill="currentColor"/></svg>
+          <b class="b4g">4G</b><b class="b5g">5G</b>
+          <svg viewBox="0 0 26 12" width="22" height="10"><rect x=".5" y="1.5" width="21" height="9" rx="2.5" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="3" width="17" height="6" rx="1.4" fill="currentColor"/></svg>
+        </span>
+      </div>
+
+      <!-- 导航栏 -->
+      <div class="nav">
+        <button class="nav__back" aria-label="返回">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5 8 12l7 7"/></svg>
+        </button>
+        <span class="nav__title">请假详情</span>
+        <button class="nav__right">反馈</button>
+      </div>
+
+      <!-- 标签 -->
+      <div class="tabs">
+        <button class="tab is-on" data-tab="info">请假信息</button>
+        <button class="tab" data-tab="qr">核验二维码</button>
+      </div>
+
+      <!-- 页面主体 -->
+      <main class="body" id="body">
+        <!-- 横幅（橙条 + 绿底 + 斜齿）整块由录屏裁切 -->
+        <div class="bannerwrap">
+          <img class="banner" src="./assets/banner_top.png" alt="正在休假中" />
+          <div class="zig"></div>
+        </div>
+
+        <!-- 概览 -->
+        <section class="facts">
+          <div class="facts__row facts__row--2">
+            <span><em>请假类型：</em><span class="ed" contenteditable="true" spellcheck="false" data-field="type" data-empty="请输入"></span></span>
+            <span><em>需要离校：</em><span class="ed" contenteditable="true" spellcheck="false" data-field="away" data-empty="请输入"></span></span>
+          </div>
+          <div class="facts__row"><em>销假规则：</em><b class="warn">离校请假需要销假，非离校请假无需销假</b></div>
+          <div class="facts__row"><em>实际休假时间：</em>-</div>
+        </section>
+
+        <div class="gap"></div>
+
+        <!-- 我的请假申请 -->
+        <section class="card">
+          <h2 class="card__t">我的 请假申请</h2>
+          <div class="kv"><em>开始时间：</em><b class="ed" contenteditable="true" spellcheck="false" data-field="start" data-empty="请输入"></b></div>
+          <div class="kv"><em>结束时间：</em><b class="ed" contenteditable="true" spellcheck="false" data-field="end" data-empty="请输入"></b></div>
+          <div class="kv"><em>审批流程：</em>共1步<a class="lnk">查看<svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke="currentColor" stroke-width="3.6"><path d="M9 5l7 7-7 7"/></svg></a></div>
+          <div class="kv"><em>紧急联系人：</em><span class="ed" contenteditable="true" spellcheck="false" data-field="phone" data-empty="请输入"></span></div>
+          <div class="kv"><em>请假原因：</em><span class="ed" contenteditable="true" spellcheck="false" data-field="reason" data-empty="请输入"></span></div>
+          <div class="kv"><em>发起位置：</em><a class="lnk lnk--block ed" contenteditable="true" spellcheck="false" data-field="place" data-empty="请输入"></a></div>
+          <div class="kv"><em>抄送人：</em>无</div>
+          <div class="kv"><em>宿舍信息：</em>-</div>
+          <span class="dur" id="dur">1天16小时</span>
+        </section>
+
+        <div class="gap"></div>
+
+        <!-- 审批流程记录 -->
+        <section class="card card--flow">
+          <h2 class="card__t">审批流程记录</h2>
+          <div class="tl">
+            <div class="tl__item">
+              <span class="tl__dot tl__dot--blue"></span>
+              <span class="tl__txt"><span class="ed" contenteditable="true" spellcheck="false" data-field="applicant" data-empty="请输入"></span> - 发起申请</span>
+              <span class="tl__time ed" data-field="flow1" data-empty="选择时间">11-13 15:05</span>
+            </div>
+            <div class="tl__item">
+              <span class="tl__dot tl__dot--green"></span>
+              <span class="tl__txt">一级：<span class="ed" contenteditable="true" spellcheck="false" data-field="approver" data-empty="请输入"></span> - 审批<b class="ok">通过</b></span>
+              <span class="tl__time ed" data-field="flow2" data-empty="选择时间">11-13 17:16</span>
+            </div>
+          </div>
+          <div class="opinion">审批意见：无</div>
+        </section>
+
+        <div class="spacer"></div>
+      </main>
+
+      <!-- 智能客服（裁切贴图） -->
+      <img class="help" src="./assets/help.png" alt="智能客服" />
+
+      <!-- 底部操作栏 -->
+      <div class="bottombar">
+        <button class="bbtn">转发</button>
+        <button class="bbtn">申请续假</button>
+        <button class="bbtn bbtn--primary">去销假</button>
+      </div>
+      <div class="homebar"></div>
+    </div>
+  </div>
+  <div class="hint">
+    <strong>今日校园 · 请假详情（按录屏复刻）</strong>
+    <span>横幅区与智能客服为录屏原图裁切，其余为 CSS 还原</span>
+  </div>
+</div>
+<script src="./app.js"></script>
+<script src="./dtp.js"></script>
+<script src="./splash.js"></script>
+</body>
+</html>
